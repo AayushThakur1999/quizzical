@@ -1,32 +1,63 @@
 /* eslint-disable react/prop-types */
+import { useState } from 'react'
 
 const Question = (props) => {
 
+  const [selection, setSelection] = useState(false)
+  const [increment, setIncrement] = useState(false)
+  const [checked, setChecked] = useState(false);
+  // State to keep track of the selected option
+  const [selectedOption, setSelectedOption] = useState(null)
+
   const item = props.item
-  const array = [...item.incorrectAnswers]
-  array.push(item.correctAnswer)
-  
-  const shuffle = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+  const answer = item.correctAnswer
+  console.log("ANS:-", answer);
+  // console.log(item)
+  const options = item.options
+  // console.log(options);
+
+  const checkAnswer = (event, index) => {
+    const selectedOptionText = event.target.innerText;
+    if (selectedOptionText === answer && increment) {
+      console.log('Already checked right answer!!');
+      console.log(props.count);
+    } else if (selectedOptionText === answer && !increment) {
+      props.countUpdate(1)
+      setIncrement(true)
+      setSelection(true)
+      setSelectedOption(index); // Set the selected option
+      console.log(props.count);
+    } else if (selectedOptionText !== answer && !increment) {
+      setSelection(true)
+      setSelectedOption(index);
+      console.warn('Wrong Selection!');
+      console.log(props.count);
+    } else if (selectedOptionText !== answer && increment) {
+      props.countUpdate(-1)
+      setIncrement(false)
+      setSelection(true)
+      setSelectedOption(index); // Set the selected option
+      console.log(props.count);
     }
-    return array;
+    // console.log(event);
   }
-
-  const options = shuffle(array)
-
+  
   return (
-    <>
+    <div className='question'>
       <h3>{item.question.text}</h3>
       <div className="options">
-        <span>{options[0]}</span>
-        <span>{options[1]}</span>
-        <span>{options[2]}</span>
-        <span>{options[3]}</span>
+        {options.map((option, index) => (
+          <span
+            key={index}
+            onClick={(event) => checkAnswer(event, index)}
+            className={selectedOption === index ? 'option selected' : 'option'}
+          >
+            {option}
+          </span>
+        ))}
       </div>
       <hr />
-    </>
+    </div>
   )
 }
 

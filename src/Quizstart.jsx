@@ -4,7 +4,7 @@ export const Quizstart = (props) => {
   const starter = props.starter
   const starterFn = props.handleStarter
   return (
-    <div>
+    <div className="quizstart">
       <h1>Quizzical</h1>
       <p>Some Description</p>
       {/* this button sends the changed value of starter to App.jsx */}
