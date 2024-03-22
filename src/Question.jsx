@@ -3,9 +3,7 @@ import { useState } from 'react'
 
 const Question = (props) => {
 
-  const [selection, setSelection] = useState(false)
   const [increment, setIncrement] = useState(false)
-  const [checked, setChecked] = useState(false);
   // State to keep track of the selected option
   const [selectedOption, setSelectedOption] = useState(null)
 
@@ -24,18 +22,15 @@ const Question = (props) => {
     } else if (selectedOptionText === answer && !increment) {
       props.countUpdate(1)
       setIncrement(true)
-      setSelection(true)
       setSelectedOption(index); // Set the selected option
       console.log(props.count);
     } else if (selectedOptionText !== answer && !increment) {
-      setSelection(true)
       setSelectedOption(index);
       console.warn('Wrong Selection!');
       console.log(props.count);
     } else if (selectedOptionText !== answer && increment) {
       props.countUpdate(-1)
       setIncrement(false)
-      setSelection(true)
       setSelectedOption(index); // Set the selected option
       console.log(props.count);
     }

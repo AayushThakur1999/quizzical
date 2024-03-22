@@ -1,3 +1,6 @@
+:root {
+  text-align: center;
+}
 .quizstart {
   text-align: center;
 }
@@ -21,4 +24,8 @@
 
 .option {
   cursor: pointer;
+}
+
+.hide {
+  display: none;
 }
