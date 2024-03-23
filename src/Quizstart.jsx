@@ -6,7 +6,7 @@ export const Quizstart = (props) => {
   return (
     <div className="quizstart">
       <h1>Quizzical</h1>
-      <p>Some Description</p>
+      <p>A quiz game which contains questions from various field including geography, culture, music, general knowledge etc. </p>
       {/* this button sends the changed value of starter to App.jsx */}
       <button className="start-btn" onClick={() => starterFn(!starter)}>Start Quiz</button>
     </div>

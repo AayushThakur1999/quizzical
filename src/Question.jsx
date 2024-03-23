@@ -1,42 +1,41 @@
+/* eslint-disable no-empty */
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
 
 const Question = (props) => {
 
+  // keeps track of increment for correct answer
   const [increment, setIncrement] = useState(false)
   // State to keep track of the selected option
   const [selectedOption, setSelectedOption] = useState(null)
 
-  const item = props.item
-  const answer = item.correctAnswer
-  console.log("ANS:-", answer);
-  // console.log(item)
+  const checked = props.answersOut;
+  const item = props.item;
+  const answer = item.correctAnswer;
+
   const options = item.options
-  // console.log(options);
+
+  // Determine the index of the correct option
+  const correctOptionIndex = options.findIndex(option => option === answer);
 
   const checkAnswer = (event, index) => {
+
     const selectedOptionText = event.target.innerText;
-    if (selectedOptionText === answer && increment) {
-      console.log('Already checked right answer!!');
-      console.log(props.count);
-    } else if (selectedOptionText === answer && !increment) {
+
+    if (selectedOptionText === answer && increment) {} 
+    else if (selectedOptionText === answer && !increment) {
       props.countUpdate(1)
       setIncrement(true)
       setSelectedOption(index); // Set the selected option
-      console.log(props.count);
     } else if (selectedOptionText !== answer && !increment) {
       setSelectedOption(index);
-      console.warn('Wrong Selection!');
-      console.log(props.count);
     } else if (selectedOptionText !== answer && increment) {
       props.countUpdate(-1)
       setIncrement(false)
       setSelectedOption(index); // Set the selected option
-      console.log(props.count);
     }
-    // console.log(event);
   }
-  
+
   return (
     <div className='question'>
       <h3>{item.question.text}</h3>
@@ -45,7 +44,14 @@ const Question = (props) => {
           <span
             key={index}
             onClick={(event) => checkAnswer(event, index)}
-            className={selectedOption === index ? 'option selected' : 'option'}
+            className={
+              checked ?
+                (selectedOption === index ?
+                  (increment ?
+                    'option correct' : 'option incorrect') :
+                  (correctOptionIndex === index ? 'option correct' : 'option')) :
+                (selectedOption === index ? "option selected" : "option")
+            }
           >
             {option}
           </span>

@@ -4,7 +4,7 @@ import axios from 'axios'
 import Question from './Question'
 import { Quizstart } from './Quizstart'
 
-const url = 'https://the-trivia-api.com/v2/questions'
+const url = 'https://the-trivia-api.com/v2/questions';
 
 function App() {
   // holds the data from the API
@@ -14,24 +14,30 @@ function App() {
   // keeps the count of number of correct answers
   const [answerCount, setAnswerCount] = useState(0)
   const [showReset, setShowReset] = useState(false)
+  // helps with the final coloring of the correct and incorrect answers 
+  const [answersOut, setAnswersOut] = useState(false) 
   
   // this fn. handles the value of starter state variable and changes it based on the button click in starting page
   function handleQuizStart(data) {
-    setStarter(data)
+    setStarter(data);
   }
   // keeps the count of number of correct answers
   function answerCounter(data) {
-    setAnswerCount(prevCount => prevCount + data)
-    console.log("correct answers", answerCount);
+    setAnswerCount(prevCount => prevCount + data);
+  }
+
+  function checkAnswers() {
+    setShowReset(true);
+    setAnswersOut(true) // experimental
   }
 
   function playAgain() {
     setAnswerCount(0); // Reset answer count
     setShowReset(false); // Hide the reset button
     setStarter(false); // Show the starting page
-    setApiData([]);
+    setApiData([]); // 
+    setAnswersOut(false); 
   }
-
   // Here Fisher-Yates sorting algorithm is used to shuffle an array
   const shuffle = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -50,10 +56,7 @@ function App() {
           const options = shuffle([...item.incorrectAnswers, item.correctAnswer]);
           return { ...item, options }; // Add shuffled options to each item
         });
-        // console.log(shuffledData);
         setApiData(shuffledData);
-        console.log(apiData);
-        // console.log(resp);
       }
     } catch (error) {
       console.log(error)
@@ -62,7 +65,6 @@ function App() {
 
   useEffect(() => {
     fetchData();
-    console.log('fetching again!!')
   }, [starter])
 
   // creating an array of question component of length equal to the no. of questions in API
@@ -72,7 +74,8 @@ function App() {
       item={item}
       id={index}
       count={answerCount}
-      countUpdate={answerCounter} />)
+      countUpdate={answerCounter}
+      answersOut={answersOut} />)
 
   return (
     <>
@@ -83,7 +86,7 @@ function App() {
             {array}
             <button
               className={showReset || apiData.length === 0 ? 'hide' : 'show'}
-              onClick={() => setShowReset(true)}
+              onClick={checkAnswers}
             >Check Answers</button>
           </div> : <Quizstart starter={starter} handleStarter={handleQuizStart} />
       }
@@ -99,4 +102,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
