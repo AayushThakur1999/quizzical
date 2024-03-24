@@ -15,12 +15,33 @@ function App() {
   const [answerCount, setAnswerCount] = useState(0)
   const [showReset, setShowReset] = useState(false)
   // helps with the final coloring of the correct and incorrect answers 
-  const [answersOut, setAnswersOut] = useState(false) 
-  
+  const [answersOut, setAnswersOut] = useState(false)
+
   // this fn. handles the value of starter state variable and changes it based on the button click in starting page
   function handleQuizStart(data) {
     setStarter(data);
   }
+
+  // keeps track of 
+  function selectAnswer(event, index, answer, increment, setIncrement, setSelectedOption) {
+
+    const selectedOptionText = event.target.innerText;
+
+    // eslint-disable-next-line no-empty
+    if (selectedOptionText === answer && increment) { }
+    else if (selectedOptionText === answer && !increment) {
+      answerCounter(1)
+      setIncrement(true)
+      setSelectedOption(index); // Set the selected option
+    } else if (selectedOptionText !== answer && !increment) {
+      setSelectedOption(index);
+    } else if (selectedOptionText !== answer && increment) {
+      answerCounter(-1)
+      setIncrement(false)
+      setSelectedOption(index); // Set the selected option
+    }
+  }
+
   // keeps the count of number of correct answers
   function answerCounter(data) {
     setAnswerCount(prevCount => prevCount + data);
@@ -36,7 +57,7 @@ function App() {
     setShowReset(false); // Hide the reset button
     setStarter(false); // Show the starting page
     setApiData([]); // 
-    setAnswersOut(false); 
+    setAnswersOut(false);
   }
   // Here Fisher-Yates sorting algorithm is used to shuffle an array
   const shuffle = (array) => {
@@ -75,7 +96,9 @@ function App() {
       id={index}
       count={answerCount}
       countUpdate={answerCounter}
-      answersOut={answersOut} />)
+      answersOut={answersOut}
+      selectAnswer={selectAnswer} />
+  );
 
   return (
     <>
