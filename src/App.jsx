@@ -7,6 +7,8 @@ import { Quizstart } from './Quizstart'
 const url = 'https://the-trivia-api.com/v2/questions';
 
 function App() {
+  // helps with the API call
+  const [initialCall, setInitialCall] = useState(true);
   // holds the data from the API
   const [apiData, setApiData] = useState([])
   // its value decides which page to show either starting page or questions page
@@ -18,8 +20,8 @@ function App() {
   const [answersOut, setAnswersOut] = useState(false)
 
   // this fn. handles the value of starter state variable and changes it based on the button click in starting page
-  function handleQuizStart(data) {
-    setStarter(data);
+  function handleQuizStart(value) {
+    setStarter(value);
   }
 
   // keeps track of 
@@ -56,6 +58,7 @@ function App() {
     setAnswerCount(0); // Reset answer count
     setShowReset(false); // Hide the reset button
     setStarter(false); // Show the starting page
+    setInitialCall(prevState => !prevState);
     setApiData([]); // 
     setAnswersOut(false);
   }
@@ -71,14 +74,12 @@ function App() {
   // function to get the questions from the trivia-api
   async function fetchData() {
     try {
-      if (starter) {
         const resp = await axios(url)
         const shuffledData = resp.data.map(item => {
           const options = shuffle([...item.incorrectAnswers, item.correctAnswer]);
           return { ...item, options }; // Add shuffled options to each item
         });
         setApiData(shuffledData);
-      }
     } catch (error) {
       console.log(error)
     }
@@ -86,7 +87,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
-  }, [starter])
+  }, [initialCall])
 
   // creating an array of question component of length equal to the no. of questions in API
   const array = apiData.map((item, index) =>
