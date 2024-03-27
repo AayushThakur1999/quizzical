@@ -28,17 +28,18 @@ function App() {
 
   // keeps track of 
   function selectAnswer(event, answer, increment, setIncrement) {
-    
-    const selectedOptionText = event.target.innerText;
-
-    if (selectedOptionText === answer && increment) {
-    } else if (selectedOptionText === answer && !increment) {
-      answerCounter(1)
-      setIncrement(true)
-    } else if (selectedOptionText !== answer && !increment) {
-    } else if (selectedOptionText !== answer && increment) {
-      answerCounter(-1)
-      setIncrement(false)
+    if (!answersOut) {
+      const selectedOptionText = event.target.innerText;
+  
+      if (selectedOptionText === answer && increment) {
+      } else if (selectedOptionText === answer && !increment) {
+        answerCounter(1)
+        setIncrement(true)
+      } else if (selectedOptionText !== answer && !increment) {
+      } else if (selectedOptionText !== answer && increment) {
+        answerCounter(-1)
+        setIncrement(false)
+      }
     }
   }
 
