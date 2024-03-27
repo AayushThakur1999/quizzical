@@ -74,14 +74,19 @@ function App() {
   // function to get the questions from the trivia-api
   async function fetchData() {
     try {
-        const resp = await axios(url)
-        const shuffledData = resp.data.map(item => {
-          const options = shuffle([...item.incorrectAnswers, item.correctAnswer]);
-          return { ...item, options }; // Add shuffled options to each item
-        });
-        setApiData(shuffledData);
+      // destructured data property
+      const { data } = await axios(url)
+      const shuffledData = data.map(item => {
+        const options = shuffle([...item.incorrectAnswers, item.correctAnswer]);
+        return { ...item, options }; // Add shuffled options to each item
+      });
+      setApiData(shuffledData);
     } catch (error) {
-      console.log(error)
+      if (error instanceof Error) {
+        console.log(error.message)
+      } else {
+        console.log(error)
+      }
     }
   }
 
