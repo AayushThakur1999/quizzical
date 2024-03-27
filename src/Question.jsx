@@ -23,7 +23,10 @@ const Question = (props) => {
         {options.map((option, index) => (
           <span
             key={index}
-            onClick={(event) => props.selectAnswer(event, index, answer, increment, setIncrement, setSelectedOption)}
+            onClick={(event) => {
+              setSelectedOption(index);
+              props.selectAnswer(event, answer, increment, setIncrement);
+            }}
             className={
               checked ?
                 (selectedOption === index ?

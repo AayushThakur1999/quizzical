@@ -73,6 +73,16 @@ h3 {
 .darkTheme .start-btn:hover {
   background-color: var(--incorrect-option-color);
 }
+
+.darkTheme .correct.option:hover {
+  background-color: var(--correct-option-color);
+  color: aliceblue;
+}
+
+.darkTheme .incorrect.option:hover {
+  background-color: var(--incorrect-option-color);
+  color: aliceblue;
+}
 /* Dark Theme styling ends*/
 
 
@@ -170,8 +180,18 @@ h3 {
   background-color: var(--correct-option-color);
 }
 
+.correct.option:hover {
+  background-color: var(--correct-option-color);
+  color: #000;
+}
+
 .incorrect {
   background-color: var(--incorrect-option-color);
+}
+
+.incorrect.option:hover {
+  background-color: var(--incorrect-option-color);
+  color: #000;
 }
 
 .hide {
@@ -181,6 +201,11 @@ h3 {
 .selected {
   background-color: var(--tertiary-color);
   color: var(--selected-option-color);
+}
+
+.selected.option:hover {
+  background-color: var(--tertiary-color); /* Keep the background color consistent */
+  color: var(--selected-option-color); /* Keep the text color consistent */
 }
 
 .show, .scoreOut, .reset {

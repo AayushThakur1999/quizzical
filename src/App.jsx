@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Question from './Question'
@@ -26,22 +27,18 @@ function App() {
   }
 
   // keeps track of 
-  function selectAnswer(event, index, answer, increment, setIncrement, setSelectedOption) {
-
+  function selectAnswer(event, answer, increment, setIncrement) {
+    
     const selectedOptionText = event.target.innerText;
 
-    // eslint-disable-next-line no-empty
-    if (selectedOptionText === answer && increment) { }
-    else if (selectedOptionText === answer && !increment) {
+    if (selectedOptionText === answer && increment) {
+    } else if (selectedOptionText === answer && !increment) {
       answerCounter(1)
       setIncrement(true)
-      setSelectedOption(index); // Set the selected option
     } else if (selectedOptionText !== answer && !increment) {
-      setSelectedOption(index);
     } else if (selectedOptionText !== answer && increment) {
       answerCounter(-1)
       setIncrement(false)
-      setSelectedOption(index); // Set the selected option
     }
   }
 
