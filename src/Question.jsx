@@ -27,10 +27,9 @@ const Question = (props) => {
             className={
               checked ?
                 (selectedOption === index ?
-                  (increment ?
-                    'option correct' : 'option incorrect') :
-                  (correctOptionIndex === index ? 'option correct' : 'option')) :
-                (selectedOption === index ? "option selected" : "option")
+                  (increment ? 'option correct' : 'option incorrect') :
+                  (correctOptionIndex === index ? 'option actually-correct' : 'option')
+                ) : (selectedOption === index ? "option selected" : "option")
             }
           >
             {option}

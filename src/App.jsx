@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import './App.css'
 import axios from 'axios'
 import Question from './Question'
 import { Quizstart } from './Quizstart'
@@ -9,6 +8,8 @@ const url = 'https://the-trivia-api.com/v2/questions';
 function App() {
   // helps with the API call
   const [initialCall, setInitialCall] = useState(true);
+  // this state keeps track of the theme
+  const [lightMode, setLightMode] = useState(true)
   // holds the data from the API
   const [apiData, setApiData] = useState([])
   // its value decides which page to show either starting page or questions page
@@ -107,7 +108,17 @@ function App() {
   );
 
   return (
-    <>
+    <div className={lightMode ? 'App' : 'darkTheme App'}>
+      <div className={lightMode ?
+        'btn-container light-mode-container' :
+        'btn-container dark-mode-container'}
+      >
+        <div
+          className={lightMode ? 'theme-btn light-theme-btn' : 'theme-btn dark-theme-btn'}
+          onClick={() => setLightMode(!lightMode)}
+        >
+        </div>
+      </div>
       {/* the logic deciding which component to display based on the starter useState variable */}
       {
         starter ?
@@ -122,12 +133,12 @@ function App() {
 
       {
         showReset ?
-          <div>
+          <div className='scoreOut'>
             <p>{`You scored ${answerCount}/${apiData.length} correct answers`}</p>
-            <button onClick={() => playAgain()}>Play Again</button>
+            <button className='reset' onClick={() => playAgain()}>Play Again</button>
           </div> : ""
       }
-    </>
+    </div>
   )
 }
 
