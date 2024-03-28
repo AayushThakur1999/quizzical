@@ -33,7 +33,7 @@ h3 {
 
 .App::before {
   content: "";
-  background: url("blob2.svg") no-repeat top right, url("blob1.svg") no-repeat bottom left;
+  background: url("../blob2.svg") no-repeat top right, url("../blob1.svg") no-repeat bottom left;
   background-size: 40%;
   position: absolute;
   width: 100%;
