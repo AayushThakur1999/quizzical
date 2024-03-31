@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import Question from './Question'
 import { Quizstart } from './Quizstart'
@@ -16,7 +16,8 @@ function App() {
   // its value decides which page to show either starting page or questions page
   const [starter, setStarter] = useState(false)
   // keeps the count of number of correct answers
-  const [answerCount, setAnswerCount] = useState(0)
+  let answerCount = useRef(0);
+  // helps display the score and play again button
   const [showReset, setShowReset] = useState(false)
   // helps with the final coloring of the correct and incorrect answers 
   const [answersOut, setAnswersOut] = useState(false)
@@ -26,9 +27,8 @@ function App() {
     setStarter(value);
   }
 
-  // keeps track of 
+  // keeps track of score increment and the selected option
   function selectAnswer(event, answer, increment, setIncrement) {
-
     const selectedOptionText = event.target.innerText;
 
     if (selectedOptionText === answer && increment) {
@@ -44,7 +44,8 @@ function App() {
 
   // keeps the count of number of correct answers
   function answerCounter(data) {
-    setAnswerCount(prevCount => prevCount + data);
+    answerCount.current = answerCount.current + data;
+
   }
 
   function checkAnswers() {
@@ -53,7 +54,7 @@ function App() {
   }
 
   function playAgain() {
-    setAnswerCount(0); // Reset answer count
+    answerCount.current = 0; // reset the answer count
     setShowReset(false); // Hide the reset button
     setStarter(false); // Show the starting page
     setInitialCall(prevState => !prevState);
@@ -97,9 +98,6 @@ function App() {
     <Question
       key={index}
       item={item}
-      id={index}
-      count={answerCount}
-      countUpdate={answerCounter}
       answersOut={answersOut}
       selectAnswer={selectAnswer} />
   );
@@ -131,7 +129,7 @@ function App() {
       {
         showReset ?
           <div className='scoreOut'>
-            <p>{`You scored ${answerCount}/${apiData.length} correct answers`}</p>
+            <p>{`You scored ${answerCount.current}/${apiData.length} correct answers`}</p>
             <button className='reset' onClick={() => playAgain()}>Play Again</button>
           </div> : ""
       }
